@@ -37,14 +37,15 @@ createApp({
         }
     },
     async created(){
-        const res = await fetch('https://randomuser.me/api/?results=8');
+        const res = await fetch('https://randomuser.me/api/?results=6');
         const {results} = await res.json();
-        const finalResults = results.map(()=>{
+        const finalResults = results.map((element, index)=>{
             return {
                 ...results,
                 likesNum: createRandomNum(0, 200),
                 postDate: getRandomDate(),
                 hasClicked: false,
+                postPicture: `https://unsplash.it/600/300?image=${createRandomNum(1, 1000) + index * 6}`,
             }
         });
         this.users = finalResults;
