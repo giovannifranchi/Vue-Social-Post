@@ -12,59 +12,63 @@
 </head>
 <body>
 
-    <div id="app">
+    <div id="app" v-cloak>
         <h1 class="main-title">Social Posts</h1>
 
-        <div id="container" class="posts-list"></div>
-    
-        <template id="template-post">
-                    <!-- post -->
-                    <div class="post">
-                        <!-- header -->
-                        <div class="post__header">
-                            <div class="post-meta">                    
-                                <div class="post-meta__icon">
-                                    <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">                    
-                                </div>
-                                <div class="post-meta__data">
-                                    <div class="post-meta__author">Phil Mangione</div>
-                                    <div class="post-meta__time">20/10/2022</div>
-                                </div>                    
-                            </div>
+        <div id="container" class="posts-list">
+            <!-- post -->
+            <div class="post" v-for="(post, index) in users">
+                <!-- header -->
+                <div class="post__header">
+                    <div class="post-meta">                    
+                        <div class="post-meta__icon">
+                            <img class="profile-pic" :src="post[index].picture.thumbnail" :alt="post[index].name.first">                    
                         </div>
-                        <!-- /header -->
-                        <!-- text -->
-                        <div class="post__text">Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.</div>
-                        <!-- /text -->
-                        <!-- image -->
-                        <div class="post__image">
-                            <img src="" alt="">
-                        </div>
-                        <!-- /image -->
-                        <!-- footer -->
-                        <div class="post__footer">
-                            <!-- likes -->
-                            <div class="likes js-likes">
-                                <!-- button -->
-                                <div class="likes__cta">
-                                    <a class="like-button  js-like-button" href="#" data-postid="1">
-                                        <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
-                                        <span class="like-button__label">Mi Piace</span>
-                                    </a>
-                                </div>
-                                 <!-- /button -->
-                                <!-- counter -->
-                                <div class="likes__counter">
-                                    Piace a <b id="like-counter-1" class="js-likes-counter">80</b> persone
-                                </div>
-                                <!-- /counter -->
-                            </div> 
-                            <!-- /likes -->
-                        </div>         
-                        <!-- /footer -->   
+                        <div class="post-meta__data">
+                            <div class="post-meta__author">{{ post[index].name.first}} {{ post[index].name.last}}</div>
+                            <div class="post-meta__time">{{ post.postDate }}</div>
+                        </div>                    
                     </div>
-                    <!-- /post -->
-        </template>
+                </div>
+                <!-- /header -->
+                <!-- text -->
+                <div class="post__text">Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.</div>
+                <!-- /text -->
+                <!-- image -->
+                <div class="post__image">
+                    <img src="" alt="">
+                </div>
+                <!-- /image -->
+                <!-- footer -->
+                <div class="post__footer">
+                    <!-- likes -->
+                    <div class="likes js-likes">
+                        <!-- button -->
+                        <div class="likes__cta">
+                            <a class="like-button  js-like-button" @click="addLike(index)" :class="post.hasClicked ? 'liked': ''">
+                                <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+                                <span class="like-button__label" >Mi Piace</span>
+                            </a>
+                        </div>
+                            <!-- /button -->
+                        <!-- counter -->
+                        <div class="likes__counter" v-if="post.likesNum > 1">
+                            Piace a <b  class="js-likes-counter">{{post.likesNum}}</b> persone
+                        </div>
+                        <div class="likes__counter" v-if="post.likesNum === 1">
+                            Piace a <b  class="js-likes-counter">{{post.likesNum}}</b> persona
+                        </div>
+                        <div class="likes__counter" v-if="post.likesNum <= 0">
+                            Non piace a nessuno
+                        </div>
+                        <!-- /counter -->
+                    </div> 
+                    <!-- /likes -->
+                </div>         
+                <!-- /footer -->   
+            </div>
+            <!-- /post -->
+        </div>
     </div>
     
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>

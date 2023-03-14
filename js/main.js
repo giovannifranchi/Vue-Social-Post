@@ -20,8 +20,16 @@ createApp({
         }
     },
     methods:{
-        display(){
-            console.log(this.users[0].postDate);
+        addLike(index){
+            if(!this.users[index].hasClicked){
+                this.users[index].hasClicked = true;
+                this.users[index].likesNum++;
+            }else{
+                this.users[index].hasClicked = false;
+                this.users[index].likesNum--;
+            }
+            
+
         }
     },
     async created(){
@@ -32,6 +40,7 @@ createApp({
                 ...results,
                 likesNum: createRandomNum(0, 200),
                 postDate: getRandomDate(),
+                hasClicked: false,
             }
         });
         this.users = finalResults;
