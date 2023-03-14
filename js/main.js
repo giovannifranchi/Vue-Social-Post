@@ -17,6 +17,7 @@ createApp({
     data(){
         return {
             users: [],
+            likedPosts: [],
         }
     },
     methods:{
@@ -24,12 +25,15 @@ createApp({
             if(!this.users[index].hasClicked){
                 this.users[index].hasClicked = true;
                 this.users[index].likesNum++;
+                this.likedPosts.push(this.users[index]);
             }else{
                 this.users[index].hasClicked = false;
                 this.users[index].likesNum--;
+                this.likedPosts = this.likedPosts.filter((liked)=>{
+                    return liked !== this.users[index];
+                });
             }
-            
-
+            console.log(this.likedPosts);
         }
     },
     async created(){
